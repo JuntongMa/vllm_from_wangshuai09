@@ -67,7 +67,7 @@ elif is_rocm:
     current_platform = RocmPlatform()
 elif is_npu:
     from .npu import NpuPlatform
-    current_platform = NpuPlatform
+    current_platform = NpuPlatform()
 else:
     current_platform = UnspecifiedPlatform()
 
