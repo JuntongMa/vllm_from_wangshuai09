@@ -8,4 +8,8 @@ if HAS_TRITON:
         maybe_set_triton_cache_manager)
     from vllm.triton_utils.libentry import libentry
 
-    __all__ += ["maybe_set_triton_cache_manager", "libentry"]
+else:
+    maybe_set_triton_cache_manager = lambda: None
+    libentry = None
+
+__all__ += ["maybe_set_triton_cache_manager", "libentry"]

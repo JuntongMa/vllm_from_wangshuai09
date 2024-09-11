@@ -42,6 +42,18 @@ try:
 except Exception:
     pass
 
+is_npu = False
+try:
+    import torch
+    import torch_npu
+    _default_gen = torch.Generator
+    from torch_npu.contrib import transfer_to_npu
+    # avoid raise error in use msgspec.
+    torch.Generator = _default_gen
+    is_npu = True
+except Exception:
+    pass
+
 if is_tpu:
     # people might install pytorch built with cuda but run on tpu
     # so we need to check tpu first
@@ -53,6 +65,9 @@ elif is_cuda:
 elif is_rocm:
     from .rocm import RocmPlatform
     current_platform = RocmPlatform()
+elif is_npu:
+    from .npu import NpuPlatform
+    current_platform = NpuPlatform
 else:
     current_platform = UnspecifiedPlatform()
 
